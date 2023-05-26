@@ -1,3 +1,5 @@
+import { setLocalStorage } from "./utils.mjs";
+
 /* This script file will contain the code to dynamically produce the product detail pages. */
 function productDetailsTemplate(product) {
     return `<section class="product-detail">
@@ -24,11 +26,11 @@ function productDetailsTemplate(product) {
       this.dataSource = dataSource;
     }
     async init(){
-        this.product = await dataSource.findProductById(e.target.dataset.id);
+        this.product = await this.dataSource.findProductById(this.productId);
         this.renderProductDetails("main");
         document
             .getElementById("addToCart")
-            .addEventListener("click", addToCartHandler);
+            .addEventListener("click", this.addToCart.bind(this));
     }
     addToCart(product) {
         setLocalStorage("so-cart", product);
