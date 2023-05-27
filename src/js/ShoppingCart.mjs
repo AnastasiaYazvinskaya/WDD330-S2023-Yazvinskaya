@@ -24,20 +24,30 @@ export default class ShoppingCart {
     constructor(key, parentSelector) {
       this.key = key;
       this.parentSelector = parentSelector;
+      this.total = 0;
     }
     async init(){
-        this.renderCartContents();
+        const list = getLocalStorage(this.key);
+        this.calculateTotal(list);
+        this.renderCartContents(list);
     }
-    renderCartContents() {
-        const cartItems = getLocalStorage(this.key);
+    renderCartContents(cartItems) {
+        //const cartItems = getLocalStorage(this.key);
         console.log(cartItems);
         if (cartItems) {
           const htmlItems = cartItems.map((item) => cartItemTemplate(item));
           document.querySelector(this.parentSelector).innerHTML = htmlItems.join("");
+          document.querySelector(".total-price").innerText += ` $${this.total}`;
+          document.querySelector(".total").classList.remove("hide");
         } else {
           document.querySelector(
             this.parentSelector
           ).innerHTML = `<p>There are no items in the cart.</p>`;
         }
       }
+    calculateTotal(list) {
+      const amounts = list.map((item) => item.FinalPrice);
+      this.total = amounts.reduce((sum, item) => sum + item);
+      console.log(this.total);
+    }
 }
