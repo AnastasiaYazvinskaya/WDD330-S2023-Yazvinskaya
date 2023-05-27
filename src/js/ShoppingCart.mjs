@@ -28,13 +28,12 @@ export default class ShoppingCart {
     }
     async init(){
         const list = getLocalStorage(this.key);
-        this.calculateTotal(list);
         this.renderCartContents(list);
     }
     renderCartContents(cartItems) {
         //const cartItems = getLocalStorage(this.key);
-        console.log(cartItems);
-        if (cartItems) {
+        if (cartItems.length > 0) {
+          this.calculateTotal(cartItems);
           const htmlItems = cartItems.map((item) => cartItemTemplate(item));
           document.querySelector(this.parentSelector).innerHTML = htmlItems.join("");
           document.querySelector(".total-price").innerText += ` $${this.total}`;
@@ -48,6 +47,5 @@ export default class ShoppingCart {
     calculateTotal(list) {
       const amounts = list.map((item) => item.FinalPrice);
       this.total = amounts.reduce((sum, item) => sum + item);
-      console.log(this.total);
     }
 }
