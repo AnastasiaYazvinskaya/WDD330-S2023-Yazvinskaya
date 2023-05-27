@@ -3,7 +3,7 @@ import { getLocalStorage } from "./utils.mjs";
 /* Generate a list of product cards in HTML from an array */
 function cartItemTemplate(item) {
     const newItem = `<li class="cart-card divider">
-    <a href="../product_pages/index.html?product=${product.Id}" class="cart-card__image">
+    <a href="../product_pages/index.html?product=${item.Id}" class="cart-card__image">
       <img
         src="${item.Images.PrimaryMedium}"
         alt="${item.Name}"
@@ -32,7 +32,7 @@ export default class ShoppingCart {
     }
     renderCartContents(cartItems) {
         //const cartItems = getLocalStorage(this.key);
-        if (cartItems.length > 0) {
+        if (cartItems) {
           this.calculateTotal(cartItems);
           const htmlItems = cartItems.map((item) => cartItemTemplate(item));
           document.querySelector(this.parentSelector).innerHTML = htmlItems.join("");
