@@ -3,7 +3,7 @@ import { getLocalStorage } from "./utils.mjs";
 /* Generate a list of product cards in HTML from an array */
 function cartItemTemplate(item) {
     const newItem = `<li class="cart-card divider">
-    <a href="#" class="cart-card__image">
+    <a href="../product_pages/index.html?product=${product.Id}" class="cart-card__image">
       <img
         src="${item.Images.PrimaryMedium}"
         alt="${item.Name}"
