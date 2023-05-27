@@ -10,3 +10,9 @@ const element = document.querySelector(".product-list");
 const list = new ProductList(category, dataSource, element);
 
 list.init();
+
+function search() {
+  const input = document.querySelector("#search-input");
+  console.log(input);
+  console.log(list);
+}

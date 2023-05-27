@@ -37,7 +37,16 @@ function productDetailsTemplate(product) {
         if (!content) {
             content = [];
         }
-        content.push(this.product);
+        console.log(content);
+        //content.push(this.product);
+        const existingItem = content.find((item) => item.Id === this.product.Id);
+        if (existingItem) {
+          existingItem.Quantity++;
+        }
+        else {
+          this.product.Quantity = 1
+          content.push(this.product);
+        }
         setLocalStorage("so-cart", content);
     }
     renderProductDetails(selector) {
