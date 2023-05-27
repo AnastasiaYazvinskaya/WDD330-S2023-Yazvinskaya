@@ -232,6 +232,19 @@ button {
   grid-column: 3;
 }
 
+#cart-items {
+  text-decoration: none;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  background-color: darkred;
+  color: white;
+  border-radius: 50%;
+  position: relative;
+  top: -15px;
+  left: 15px;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;

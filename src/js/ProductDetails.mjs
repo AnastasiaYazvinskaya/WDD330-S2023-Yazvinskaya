@@ -34,10 +34,9 @@ function productDetailsTemplate(product) {
     }
     addToCart(product) {
         let content = getLocalStorage("so-cart");
-        if (!content) {
+        if (!content || content.isTrusted) {
             content = [];
         }
-        console.log(content);
         //content.push(this.product);
         const existingItem = content.find((item) => item.Id === this.product.Id);
         if (existingItem) {
