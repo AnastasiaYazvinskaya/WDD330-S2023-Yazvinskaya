@@ -5,12 +5,14 @@ import ProductList from "./ProductList.mjs";
 loadHeaderFooter();
 
 const category = getParams("category");
-console.log(category);
-const dataSource = new ProductData(category);
-console.log(dataSource);
+const dataSource = new ProductData();
 const element = document.querySelector(".product-list");
-console.log(element);
 const list = new ProductList(category, dataSource, element);
-console.log(list);
 
 list.init();
+
+function search() {
+  const input = document.querySelector("#search-input");
+  console.log(input);
+  console.log(list);
+}

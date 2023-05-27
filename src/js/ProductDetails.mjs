@@ -1,4 +1,4 @@
-import { setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 /* This script file will contain the code to dynamically produce the product detail pages. */
 function productDetailsTemplate(product) {
@@ -7,7 +7,7 @@ function productDetailsTemplate(product) {
         <h2 class="divider">${product.NameWithoutBrand}</h2>
         <img
         class="divider"
-        src="${product.Image}"
+        src="${product.Images.PrimaryLarge}"
         alt="${product.NameWithoutBrand}"
         />
         <p class="product-card__price">$${product.FinalPrice}</p>
@@ -33,7 +33,20 @@ function productDetailsTemplate(product) {
             .addEventListener("click", this.addToCart.bind(this));
     }
     addToCart(product) {
-        setLocalStorage("so-cart", product);
+        let content = getLocalStorage("so-cart");
+        if (!content || content.isTrusted) {
+            content = [];
+        }
+        //content.push(this.product);
+        const existingItem = content.find((item) => item.Id === this.product.Id);
+        if (existingItem) {
+          existingItem.Quantity++;
+        }
+        else {
+          this.product.Quantity = 1
+          content.push(this.product);
+        }
+        setLocalStorage("so-cart", content);
     }
     renderProductDetails(selector) {
         const element = document.querySelector(selector);

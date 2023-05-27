@@ -3,9 +3,9 @@ import { renderListTemplate } from "./utils.mjs";
 /* Generate a list of product cards in HTML from an array */
 function productCardTemplate(product) {
     return `<li class="product-card">
-        <a href="product_pages/index.html?product=${product.Id}">
+        <a href="../product_pages/index.html?product=${product.Id}">
         <img
-            src="${product.Image}"
+            src="${product.Images.PrimaryMedium}"
             alt="${product.name}"
         />
         <h3 class="card__brand">${product.Brand.Name}</h3>
@@ -21,9 +21,10 @@ export default class ProductList {
       this.listElement = listElement;
     }
     async init(){
-        const list = await this.dataSource.getData();
-        this.filterList(list);
+        const list = await this.dataSource.getData(this.category);
+        //this.filterList(list);
         this.renderList(list);
+        this.setTitle();
     }
     renderList(list) {
         renderListTemplate(productCardTemplate, this.listElement, list);
@@ -31,5 +32,9 @@ export default class ProductList {
     filterList(list) {
         delete list[2];
         delete list[4];
+    }
+    setTitle() {
+        const titleElement = document.querySelector("#top-title");
+        titleElement.insertAdjacentHTML("afterbegin", `${this.category.toUpperCase()}`);
     }
 }

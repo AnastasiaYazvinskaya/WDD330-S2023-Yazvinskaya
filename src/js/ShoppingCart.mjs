@@ -5,7 +5,7 @@ function cartItemTemplate(item) {
     const newItem = `<li class="cart-card divider">
     <a href="#" class="cart-card__image">
       <img
-        src="${item.Image}"
+        src="${item.Images.PrimaryMedium}"
         alt="${item.Name}"
       />
     </a>
@@ -31,7 +31,7 @@ export default class ShoppingCart {
     renderCartContents() {
         const cartItems = getLocalStorage(this.key);
         console.log(cartItems);
-        if (cartItems != null) {
+        if (cartItems) {
           const htmlItems = cartItems.map((item) => cartItemTemplate(item));
           document.querySelector(this.parentSelector).innerHTML = htmlItems.join("");
         } else {
