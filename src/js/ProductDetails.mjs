@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, alertMessage} from "./utils.mjs";
 
 /* This script file will contain the code to dynamically produce the product detail pages. */
 function productDetailsTemplate(product) {
@@ -16,7 +16,19 @@ function productDetailsTemplate(product) {
         <div class="product-detail__add">
         <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
         </div>
-    </section>`;
+    </section>
+    <div class="product-detail">
+        <div id="comments"></div>
+        <h2>Comment</h2>
+        <textarea id="comment" rows="5" cols="60"></textarea>
+        <button id="commentBtn">Add Comment</button>
+    <div>`;
+  }
+  function commentDetailsTemplate(comment){
+    const currentTime = new Date;
+    return `<p><strong>${comment}</strong></p>
+                      <p>${currentTime}</p>
+                      <hr>`;
   }
   
   export default class ProductDetails {
@@ -27,10 +39,14 @@ function productDetailsTemplate(product) {
     }
     async init(){
         this.product = await this.dataSource.findProductById(this.productId);
+        console.log(this.product);
         this.renderProductDetails("main");
         document
             .getElementById("addToCart")
             .addEventListener("click", this.addToCart.bind(this));
+        document
+            .getElementById("commentBtn")
+            .addEventListener("click", this.createComments.bind(this));
     }
     addToCart(product) {
         let content = getLocalStorage("so-cart");
@@ -47,6 +63,7 @@ function productDetailsTemplate(product) {
           content.push(this.product);
         }
         setLocalStorage("so-cart", content);
+        alertMessage(`${this.product.NameWithoutBrand} added to cart!`);
     }
     renderProductDetails(selector) {
         const element = document.querySelector(selector);
@@ -55,4 +72,16 @@ function productDetailsTemplate(product) {
             productDetailsTemplate(this.product)
         );
     }
+    createComments(){
+      this.product.Comments = document.getElementById("comment").value;
+      if (this.product.Comments != ""){
+        let commentPlace = document.getElementById("comments");
+        commentPlace.insertAdjacentHTML(
+          "afterBegin",
+          commentDetailsTemplate(document.getElementById("comment").value)
+          );
+          document.getElementById("comment").value = "";
+      }
+    }
+
   }
